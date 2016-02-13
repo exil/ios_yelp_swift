@@ -169,32 +169,40 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="52" id="AgW-gH-7xa" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="52"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="44" id="AgW-gH-7xa" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AgW-gH-7xa" id="Omg-Fe-na3">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="51"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T4D-uu-JMx">
-                                                    <rect key="frame" x="20" y="8" width="42" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P1q-NC-HJg">
-                                                    <rect key="frame" x="543" y="3" width="51" height="31"/>
+                                                    <rect key="frame" x="543" y="6" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="T4D-uu-JMx" firstAttribute="leading" secondItem="Omg-Fe-na3" secondAttribute="leading" constant="15" id="3Ck-UQ-5pF"/>
                                                 <constraint firstItem="T4D-uu-JMx" firstAttribute="top" secondItem="Omg-Fe-na3" secondAttribute="top" constant="8" id="63Z-iV-8fN"/>
                                                 <constraint firstItem="T4D-uu-JMx" firstAttribute="leading" secondItem="Omg-Fe-na3" secondAttribute="leadingMargin" constant="12" id="T49-CZ-THF"/>
+                                                <constraint firstItem="T4D-uu-JMx" firstAttribute="centerX" secondItem="Omg-Fe-na3" secondAttribute="centerX" id="TOI-qR-hNT"/>
                                                 <constraint firstItem="P1q-NC-HJg" firstAttribute="centerY" secondItem="T4D-uu-JMx" secondAttribute="centerY" id="TY6-wu-9gw"/>
+                                                <constraint firstItem="P1q-NC-HJg" firstAttribute="centerY" secondItem="Omg-Fe-na3" secondAttribute="centerY" id="UbE-Zn-JtY"/>
+                                                <constraint firstItem="T4D-uu-JMx" firstAttribute="centerY" secondItem="Omg-Fe-na3" secondAttribute="centerY" id="VeK-5Q-wfZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="P1q-NC-HJg" secondAttribute="trailing" constant="8" id="Vrq-0r-HRO"/>
                                                 <constraint firstItem="P1q-NC-HJg" firstAttribute="trailing" secondItem="Omg-Fe-na3" secondAttribute="trailingMargin" constant="12" id="tcq-x0-FL9"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="63Z-iV-8fN"/>
+                                                    <exclude reference="T49-CZ-THF"/>
+                                                    <exclude reference="TOI-qR-hNT"/>
+                                                    <exclude reference="TY6-wu-9gw"/>
                                                     <exclude reference="tcq-x0-FL9"/>
                                                 </mask>
                                             </variation>
@@ -205,23 +213,29 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectionCell" id="mXS-Z6-1uU" customClass="SelectionCell" customModule="Yelp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="144" width="600" height="52"/>
+                                        <rect key="frame" x="0.0" y="136" width="600" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mXS-Z6-1uU" id="b3q-Ej-xSl">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yym-Sc-RUa">
-                                                    <rect key="frame" x="19" y="8" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yym-Sc-RUa">
+                                                    <rect key="frame" x="15" y="15" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="yym-Sc-RUa" firstAttribute="leading" secondItem="b3q-Ej-xSl" secondAttribute="leading" constant="12" id="3gG-RA-Mx5"/>
+                                                <constraint firstItem="yym-Sc-RUa" firstAttribute="leading" secondItem="b3q-Ej-xSl" secondAttribute="leading" constant="15" id="3gG-RA-Mx5"/>
+                                                <constraint firstItem="yym-Sc-RUa" firstAttribute="centerY" secondItem="b3q-Ej-xSl" secondAttribute="centerY" id="WHe-Ut-wWc"/>
                                                 <constraint firstItem="yym-Sc-RUa" firstAttribute="top" secondItem="b3q-Ej-xSl" secondAttribute="top" constant="8" id="yKV-Z0-gWD"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="yKV-Z0-gWD"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="checkLabel" destination="yym-Sc-RUa" id="7c2-S1-AsJ"/>
