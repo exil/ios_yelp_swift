@@ -25,12 +25,17 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     //auto, .3, 1, 5, 20
     
     var categories: [[String: String]]!
-    let sortMode = ["Best Matched", "Distance", "Highest Rated"]
+    let sortMode = ["Best Match", "Distance", "Highest Rated"]
     let deals = ["Offering a Deal"]
     let distanceValues : [(String, Int?)] = [("Auto", nil), ("0.3 Miles", 500), ("1 Mile", 1600), ("5 Miles", 8000), ("20 Miles", 32000)]
     
     var sectionHeaders = ["", "Distance", "Sort By", "Categories"]
     var sectionCount: Int = 0
+    
+    var activeDistance : (String, Int?)!
+    var distanceCellCount: Int = 1
+    var activeSort : String!
+    var sortCellCount: Int = 1
 
     var switchStates = [Int:Bool]()
     var hasDeal: Bool = false
@@ -43,8 +48,9 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         // Do any additional setup after loading the view
         
         categories = yelpCategories()
-
         sectionCount = sectionHeaders.count
+        activeDistance = distanceValues[0]
+        activeSort = sortMode[0]
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -88,9 +94,9 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         case Sections.Deals.rawValue:
             return deals.count
         case Sections.Distance.rawValue:
-            return distanceValues.count
+            return distanceCellCount
         case Sections.Sort.rawValue:
-            return sortMode.count
+            return sortCellCount
         case Sections.Categories.rawValue:
             return categories.count
         default:
@@ -104,10 +110,25 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        if (indexPath.section == Sections.Sort.rawValue) {
-            selectedSort = indexPath.row
-        } else if (indexPath.section == Sections.Distance.rawValue) {
-            selectedDistance = indexPath.row
+        // expand cell on first click
+        if indexPath.section == Sections.Distance.rawValue {
+            if distanceCellCount == 1 {
+                distanceCellCount = distanceValues.count
+            } else {
+                selectedDistance = indexPath.row
+            
+                activeDistance = distanceValues[selectedDistance]
+                distanceCellCount = 1
+            }
+        } else if indexPath.section == Sections.Sort.rawValue {
+            if sortCellCount == 1 {
+                sortCellCount = sortMode.count
+            } else {
+                selectedSort = indexPath.row
+                
+                activeSort = sortMode[selectedSort]
+                sortCellCount = 1
+            }
         }
         tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.None)
     }
@@ -125,12 +146,17 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         case Sections.Distance.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier("SelectionCell", forIndexPath: indexPath) as! SelectionCell
             
-            cell.checkLabel.text = distanceValues[indexPath.row].0
-            
-            if selectedDistance == indexPath.row {
+            if (distanceCellCount == 1) {
+                cell.checkLabel.text = activeDistance.0
                 cell.accessoryType = .Checkmark
             } else {
-                cell.accessoryType = .None
+                cell.checkLabel.text = distanceValues[indexPath.row].0
+                
+                if selectedDistance == indexPath.row {
+                    cell.accessoryType = .Checkmark
+                } else {
+                    cell.accessoryType = .None
+                }
             }
             
             return cell
@@ -139,10 +165,17 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             
             cell.checkLabel.text = sortMode[indexPath.row]
             
-            if selectedSort == indexPath.row {
+            if (sortCellCount == 1) {
+                cell.checkLabel.text = activeSort
                 cell.accessoryType = .Checkmark
             } else {
-                cell.accessoryType = .None
+                cell.checkLabel.text = sortMode[indexPath.row]
+                
+                if selectedSort == indexPath.row {
+                    cell.accessoryType = .Checkmark
+                } else {
+                    cell.accessoryType = .None
+                }
             }
             
             return cell
