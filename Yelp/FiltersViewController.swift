@@ -70,7 +70,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         filters["deals"] = hasDeal
         filters["distance"] = distanceValues[selectedDistance].1
-        //filters["sort"] = YelpSortMode(rawValue: selectedSort)!
+        filters["sort"] = selectedSort
         
         delegate?.filtersViewController?(self, didUpdateFilters: filters)
     }
