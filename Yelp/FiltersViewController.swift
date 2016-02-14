@@ -2,9 +2,7 @@
 //  FiltersViewController.swift
 //  Yelp
 //
-//  Created by Max Pappas on 2/12/16.
-//  Copyright © 2016 Timothy Lee. All rights reserved.
-//
+
 
 import UIKit
 
@@ -36,6 +34,10 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     var distanceCellCount: Int = 1
     var activeSort : String!
     var sortCellCount: Int = 1
+    
+    let categoryStartCount = 4
+    var categoryCellCount: Int!
+    var categoryExpanded = false
 
     var switchStates = [Int:Bool]()
     var hasDeal: Bool = false
@@ -54,6 +56,8 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        categoryCellCount = categoryStartCount
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,7 +102,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         case Sections.Sort.rawValue:
             return sortCellCount
         case Sections.Categories.rawValue:
-            return categories.count
+            return categoryCellCount
         default:
             return 0
         }
@@ -128,6 +132,11 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
                 
                 activeSort = sortMode[selectedSort]
                 sortCellCount = 1
+            }
+        } else if indexPath.section == Sections.Categories.rawValue {
+            if !categoryExpanded && indexPath.row == categoryStartCount - 1 {
+                categoryCellCount = categories.count
+                categoryExpanded = true
             }
         }
         tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.None)
@@ -180,13 +189,21 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             
             return cell
         case Sections.Categories.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
-            
-            cell.switchLabel.text = categories[indexPath.row]["name"]
-            cell.delegate = self
-            cell.onSwitch.on = switchStates[indexPath.row] ?? false
-            
-            return cell
+            if (!categoryExpanded && indexPath.row == categoryStartCount - 1) {
+                let cell = tableView.dequeueReusableCellWithIdentifier("CenteredTextCell", forIndexPath: indexPath) as! CenteredTextCell
+                
+                cell.mainTextLabel.text = "See All"
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
+                
+                cell.switchLabel.text = categories[indexPath.row]["name"]
+                cell.delegate = self
+                cell.onSwitch.on = switchStates[indexPath.row] ?? false
+                
+                return cell
+            }
         default:
             let cell = UITableViewCell()
             
@@ -207,8 +224,8 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     func yelpCategories() -> [[String: String]] {
         return [["name" : "Afghan", "code": "afghani"],
             ["name" : "African", "code": "african"],
-            ["name" : "American", "code": "newamerican"],
-            ["name" : "American", "code": "tradamerican"],
+            ["name" : "American (New)", "code": "newamerican"],
+            ["name" : "American (Traditional)", "code": "tradamerican"],
             ["name" : "Andalusian", "code": "andalusian"],
             ["name" : "Arabian", "code": "arabian"],
             ["name" : "Argentine", "code": "argentine"],

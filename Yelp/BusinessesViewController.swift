@@ -8,12 +8,19 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UISearchBarDelegate, UITableViewDelegate, FiltersViewControllerDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UISearchBarDelegate, UITableViewDelegate, UIScrollViewDelegate, FiltersViewControllerDelegate {
 
     @IBOutlet var tableView: UITableView!
     
     var businesses: [Business]!
     var searchBar = UISearchBar()
+    var isMoreDataLoading = false
+    var searchTerm = "Restaurants"
+    var categories: [String]?
+    var sort: YelpSortMode?
+    var deals: Bool?
+    var distance: Int?
+    var offset: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +35,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UISearc
         
         navigationItem.titleView = searchBar
 
-        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
+        Business.searchWithTerm(searchTerm, completion: { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
             self.tableView.reloadData()
         
@@ -37,6 +44,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UISearc
                 print(business.address!)
             }
         })
+        
+        offset = 0
 
 /* Example of Yelp search with more search options specified
         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
@@ -80,6 +89,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UISearc
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if let searchText = searchBar.text {
+            self.searchTerm = searchText
             Business.searchWithTerm(searchText, completion: { (businesses: [Business]!, error: NSError!) -> Void in
                 self.businesses = businesses
                 self.tableView.reloadData()
@@ -88,6 +98,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UISearc
                     print(business.name!)
                     print(business.address!)
                 }
+                
+                self.offset = 0
+                searchBar.resignFirstResponder()
             })
         }
     }
@@ -102,16 +115,46 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UISearc
         searchBar.resignFirstResponder()
     }
     
-    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
-        let categories = filters["categories"] as? [String]
-        let sortMode = filters["sort"] as? Int
-        let sort = YelpSortMode(rawValue: sortMode!)
-        let deals = filters["deals"] as? Bool
-        let distance = filters["distance"] as? Int
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.dragging) {
+                isMoreDataLoading = true
+                
+                searchAgain()
+            }
+        }
+    }
+    
+    func searchAgain() {
+        self.offset = self.offset + 20
         
-        Business.searchWithTerm("Restaurants", sort: sort, categories: categories, deals: deals, distance: distance) { (businesses: [Business]!, error: NSError!) -> Void in
+        Business.searchWithTerm(searchTerm, sort: sort, categories: categories, deals: deals, distance: distance, offset: offset) { (businesses: [Business]!, error: NSError!) -> Void in
+            let combinedBusinesses = self.businesses + businesses
+            
+            self.businesses = combinedBusinesses
+            self.tableView.reloadData()
+            
+            self.isMoreDataLoading = false
+        }
+    }
+    
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
+        let sortMode = filters["sort"] as? Int
+        
+        categories = filters["categories"] as? [String]
+        sort = YelpSortMode(rawValue: sortMode!)
+        deals = filters["deals"] as? Bool
+        distance = filters["distance"] as? Int
+        
+        Business.searchWithTerm(searchTerm, sort: sort, categories: categories, deals: deals, distance: distance) { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
             self.tableView.reloadData()
+            
+            self.offset = 0
         }
     }
 

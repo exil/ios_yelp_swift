@@ -241,6 +241,29 @@
                                             <outlet property="checkLabel" destination="yym-Sc-RUa" id="7c2-S1-AsJ"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CenteredTextCell" id="H59-K5-Hiy" customClass="CenteredTextCell" customModule="Yelp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="188" width="600" height="52"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H59-K5-Hiy" id="c5F-c9-sJK">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="51"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3G-DJ-4Wx">
+                                                    <rect key="frame" x="279" y="15" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="f3G-DJ-4Wx" firstAttribute="centerY" secondItem="c5F-c9-sJK" secondAttribute="centerY" id="2DH-Ie-ibi"/>
+                                                <constraint firstItem="f3G-DJ-4Wx" firstAttribute="centerX" secondItem="c5F-c9-sJK" secondAttribute="centerX" id="8AO-3Q-YsA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="mainTextLabel" destination="f3G-DJ-4Wx" id="eQc-hn-4w7"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
